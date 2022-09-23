@@ -33,6 +33,7 @@ window.addEventListener('load', function () {
             }
 
             realizarLogin(config)
+            console.log('Sigo ejecutando más codigo....');
         } else {
             console.log('NO HACEMOS EL LOGIN', mensajeError);
         }
@@ -42,20 +43,25 @@ window.addEventListener('load', function () {
     /* -------------------------------------------------------------------------- */
     /*                     FUNCIÓN 2: Realizar el login [POST]                    */
     /* -------------------------------------------------------------------------- */
-    function realizarLogin(settings) {
+    async function realizarLogin(settings) {
        const URL = 'https://ctd-todo-api.herokuapp.com/v1/users/login'
 
-       fetch(URL, settings).then( res => {
-        return res.json();
-       }).then (data => {
+    //    fetch(URL, settings).then( res => {
+    //     return res.json();
+    //    }).then (data => {
+    //     const { jwt } = data;
+    //     if(jwt) {
+    //         guardarToken(jwt);
+    //         location.replace('/mis-tareas.html');;
+    //     }
+    //    });
+
+        const res = await fetch(URL, settings);
+        const data = await res.json();
         const { jwt } = data;
         if(jwt) {
             guardarToken(jwt);
-            location.replace('/mis-tareas.html');;
+            location.replace('/mis-tareas.html');
         }
-        alert(data);
-       }) 
     };
-
-
 });

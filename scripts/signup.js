@@ -54,7 +54,7 @@ window.addEventListener("load", function () {
   /*                    FUNCIÓN 2: Realizar el signup [POST]                    */
   /* -------------------------------------------------------------------------- */
 
-  function realizarRegister(datosRegistro) {
+  async function realizarRegister(datosRegistro) {
     const URL = "https://ctd-todo-api.herokuapp.com/v1/users";
     const config = {
       method: "POST",
@@ -64,21 +64,31 @@ window.addEventListener("load", function () {
       body: JSON.stringify(datosRegistro),
     };
 
-    fetch(URL, config)
-      .then(function (res) {
-        return res.json();
-      })
-      .then((data) => {
-        const { jwt } = data;
-        guardarToken(jwt)
-        if (jwt) {
-          location.replace("/mis-tareas.html");
-        } else {
-          containerError.innerHTML += `<li class="rafa2">${data}</li>`;
-        }
-      })
-      .catch(function (e) {
-        alert("Error! intente mas tarde");
-      });
+    // fetch(URL, config)
+    //   .then(function (res) {
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     const { jwt } = data;
+    //     guardarToken(jwt)
+    //     if (jwt) {
+    //       location.replace("/mis-tareas.html");
+    //     } else {
+    //       containerError.innerHTML += `<li class="rafa2">${data}</li>`;
+    //     }
+    //   })
+    //   .catch(function (e) {
+    //     alert("Error! intente mas tarde");
+    //   });
+    const res = await fetch(URL, config);
+    const data = await res.json();
+
+    const { jwt } = data;
+    guardarToken(jwt)
+    if (jwt) {
+      location.replace("/mis-tareas.html");
+    } else {
+      containerError.innerHTML += `<li class="rafa2">${data}</li>`;
+    }
   }
 });

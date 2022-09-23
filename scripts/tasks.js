@@ -60,7 +60,7 @@ window.addEventListener('load', function () {
   /*                 FUNCIÓN 3 - Obtener listado de tareas [GET]                */
   /* -------------------------------------------------------------------------- */
 
-  function consultarTareas() {
+  async function consultarTareas() {
     
     const URL = 'https://ctd-todo-api.herokuapp.com/v1/tasks'
     const config = {
@@ -70,11 +70,15 @@ window.addEventListener('load', function () {
       }
     }
 
-    fetch(URL, config).then( res => {return res.json()})
-    .then( data => {
-      console.log(data);
-      renderizarTareas(data);
-    })
+    // fetch(URL, config).then( res => {return res.json()})
+    // .then( data => {
+    //   console.log(data);
+    //   renderizarTareas(data);
+    // })
+
+    const res = await fetch(URL, config);
+    const data = await res.json()
+    renderizarTareas(data);
   };
 
   consultarTareas()
@@ -84,11 +88,11 @@ window.addEventListener('load', function () {
   /*                    FUNCIÓN 4 - Crear nueva tarea [POST]                    */
   /* -------------------------------------------------------------------------- */
 
-  formCrearTarea.addEventListener('submit', function (event) {
+  formCrearTarea.addEventListener('submit', async function (event) {
     event.preventDefault();
     const nuevaTarea = inputTarea.value;
-    inputTarea.value = '';
-    const data = {
+    formCrearTarea.reset();
+    const body = {
       description: nuevaTarea,
       completed: false,
     }
@@ -99,13 +103,17 @@ window.addEventListener('load', function () {
         authorization: jwt,
         'Content-Type' : "application/json; charset=UTF-8",
       }, 
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     }
 
-    fetch(URL, config).then( res => { return res.json()})
-    .then(data => {
-      renderizarTarea(data);
-    })
+    // fetch(URL, config).then( res => { return res.json()})
+    // .then(data => {
+    //   renderizarTarea(data);
+    // })
+    const res = await fetch(URL, config);
+    const data = await res.json()
+
+    renderizarTarea(data);
   });
 
   /* -------------------------------------------------------------------------- */
@@ -183,9 +191,9 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
  
 
-  function cambiarEstado(nodo, tarea) {
+  async function cambiarEstado(nodo, tarea) {
     const URL = `https://ctd-todo-api.herokuapp.com/v1/tasks/${nodo.id}`
-    const data = {
+    const body = {
         completed: !tarea.completed,
         description: tarea.description,
     }
@@ -195,15 +203,22 @@ window.addEventListener('load', function () {
         authorization: jwt,
         'Content-Type': "application/json; charset=UTF-8",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     }
-    fetch(URL,config).then( res => {return res.json()}).then(data => {
-      const { id } = data;
-      const nodo = document.getElementById(id).closest('li');
-      nodo.remove();
-      renderizarTarea(data)
-    })
-   
+    // fetch(URL,config).then( res => {return res.json()}).then(data => {
+    //   const { id } = data;
+    //   const nodo = document.getElementById(id).closest('li');
+    //   nodo.remove();
+    //   renderizarTarea(data)
+    // })
+    
+    const res = await fetch(URL, config)
+    const data = await res.json();
+    
+    const { id } = data;
+    const li = document.getElementById(id).closest('li');
+    li.remove();
+    renderizarTarea(data)
   }
 
   function botonCambioEstado(boton, tarea) {
@@ -216,7 +231,7 @@ window.addEventListener('load', function () {
   /* -------------------------------------------------------------------------- */
   /*                     FUNCIÓN 7 - Eliminar tarea [DELETE]                    */
   /* -------------------------------------------------------------------------- */
-  function eliminarTarea(boton, tarea) {
+  async function eliminarTarea(boton, tarea) {
     /* 
     Peticion delete, donde eliminamos la tarea de la API
     Eliminamos el nodo
@@ -234,15 +249,23 @@ window.addEventListener('load', function () {
       }
     }
 
-    fetch(URL, config).then( res => {
-      if(res.status === 200) {
-        nodo.remove();
-        renderizarCantidadCompletadas();
-      }
-      return res.json()})
-    .then( data => {
-      console.log(data);
-    })
+    // fetch(URL, config).then( res => {
+    //   if(res.status === 200) {
+    //     nodo.remove();
+    //     renderizarCantidadCompletadas();
+    //   }
+    //   return res.json()})
+    // .then( data => {
+    //   console.log(data);
+    // })
+    const res = await fetch(URL, config);
+
+    if(res.status === 200) {
+          nodo.remove();
+          renderizarCantidadCompletadas();
+        }
+    const data = await res.json();
+
   }
 
   function botonBorrarTarea(boton, tarea) {
