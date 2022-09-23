@@ -43,6 +43,18 @@ window.addEventListener('load', function () {
     /* -------------------------------------------------------------------------- */
     /*                     FUNCIÓN 2: Realizar el login [POST]                    */
     /* -------------------------------------------------------------------------- */
+    function agregarAnimacionCarga(cargando) {
+        const btn = document.getElementById('boton_ingresar');
+        const spinner = document.getElementById('cargando');
+        if(cargando) {
+            btn.classList.add('oculto');
+            spinner.classList.remove('oculto');
+        } else {
+            btn.classList.remove('oculto');
+            spinner.classList.add('oculto');
+        }
+    }
+
     async function realizarLogin(settings) {
        const URL = 'https://ctd-todo-api.herokuapp.com/v1/users/login'
 
@@ -55,9 +67,11 @@ window.addEventListener('load', function () {
     //         location.replace('/mis-tareas.html');;
     //     }
     //    });
-
+        agregarAnimacionCarga(true);
         const res = await fetch(URL, settings);
         const data = await res.json();
+        agregarAnimacionCarga(false)
+        console.log('Ya tenemos la data');
         const { jwt } = data;
         if(jwt) {
             guardarToken(jwt);
