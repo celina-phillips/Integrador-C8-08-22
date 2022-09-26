@@ -56,7 +56,7 @@ window.addEventListener('load', function () {
     }
 
     async function realizarLogin(settings) {
-       const URL = 'https://ctd-todo-api.herokuapp.com/v1/users/login'
+       const URL = 'https://ctd-fe2-todo-v2.herokuapp.com/v1/users/login'
 
     //    fetch(URL, settings).then( res => {
     //     return res.json();

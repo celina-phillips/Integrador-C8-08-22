@@ -55,7 +55,7 @@ window.addEventListener("load", function () {
   /* -------------------------------------------------------------------------- */
 
   async function realizarRegister(datosRegistro) {
-    const URL = "https://ctd-todo-api.herokuapp.com/v1/users";
+    const URL = "https://ctd-fe2-todo-v2.herokuapp.com/v1/users";
     const config = {
       method: "POST",
       headers: {

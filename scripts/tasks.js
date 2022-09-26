@@ -36,7 +36,7 @@ window.addEventListener('load', function () {
   function obtenerNombreUsuario() {
     const parrafo = document.getElementById('nombre_usuario');
     
-    const URL = 'https://ctd-todo-api.herokuapp.com/v1/users/getMe'
+    const URL = 'https://ctd-fe2-todo-v2.herokuapp.com/v1/users/getMe'
     const config = {
       method: 'GET',
       headers: {
@@ -62,7 +62,7 @@ window.addEventListener('load', function () {
 
   async function consultarTareas() {
     
-    const URL = 'https://ctd-todo-api.herokuapp.com/v1/tasks'
+    const URL = 'https://ctd-fe2-todo-v2.herokuapp.com/v1/tasks'
     const config = {
       method: 'GET',
       headers: {
@@ -96,7 +96,7 @@ window.addEventListener('load', function () {
       description: nuevaTarea,
       completed: false,
     }
-    const URL = 'https://ctd-todo-api.herokuapp.com/v1/tasks';
+    const URL = 'https://ctd-fe2-todo-v2.herokuapp.com/v1/tasks';
     const config = {
       method: 'POST',
       headers: {
@@ -192,7 +192,7 @@ window.addEventListener('load', function () {
  
 
   async function cambiarEstado(nodo, tarea) {
-    const URL = `https://ctd-todo-api.herokuapp.com/v1/tasks/${nodo.id}`
+    const URL = `https://ctd-fe2-todo-v2.herokuapp.com/v1/tasks/${nodo.id}`
     const body = {
         completed: !tarea.completed,
         description: tarea.description,
@@ -240,7 +240,7 @@ window.addEventListener('load', function () {
     
     const { id } = tarea;
 
-    const URL =  `https://ctd-todo-api.herokuapp.com/v1/tasks/${id}`
+    const URL =  `https://ctd-fe2-todo-v2.herokuapp.com/v1/tasks/${id}`
     const config = {
       method: 'DELETE',
       headers: {
